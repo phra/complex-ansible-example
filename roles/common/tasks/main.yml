@@ -29,4 +29,5 @@
    - xz-utils
    - exuberant-ctags
    - sudo
+   - rsync
 

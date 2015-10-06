@@ -7,3 +7,6 @@
 [submodule "roles/deploy-nginx/files/nginx"]
 	path = roles/deploy-nginx/files/nginx
 	url = git@bitbucket.org:phra/nginx.git
+[submodule "roles/postfix/files/postfix"]
+	path = roles/postfix/files/postfix
+	url = git@bitbucket.org:phra/postfix.git
