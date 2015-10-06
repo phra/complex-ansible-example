@@ -1,0 +1,9 @@
+[submodule "roles/ssl/files/ssl"]
+	path = roles/ssl/files/ssl
+	url = git@bitbucket.org:phra/ssl.git
+[submodule "roles/base-nginx/files/nginx"]
+	path = roles/base-nginx/files/nginx
+	url = git@bitbucket.org:phra/nginx.git
+[submodule "roles/deploy-nginx/files/nginx"]
+	path = roles/deploy-nginx/files/nginx
+	url = git@bitbucket.org:phra/nginx.git

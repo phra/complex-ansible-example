@@ -1,0 +1,17 @@
+---
+# This role installs reverse proxy on nginx
+
+- name: copy sites-available dirs on remote host
+  synchronize:
+      src: nginx/sites-available
+      dest: /etc/nginx
+      owner: no
+      group: no
+
+- name: copy sites-enabled dirs on remote host
+  synchronize:
+      src: nginx/sites-enabled
+      dest: /etc/nginx
+      owner: no
+      group: no
+  notify: restart nginx

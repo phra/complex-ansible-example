@@ -1,0 +1,14 @@
+---
+
+- name: create ssl certs directory
+  file: path=/etc/ssl/ordinodacasa/certs state=directory mode=0755
+
+- name: create ssl private directory
+  file: path=/etc/ssl/ordinodacasa/private state=directory mode=0700
+
+- name: copy ssl certificate
+  copy: src=ssl/intermediate/ordinodacasa/certs/root-chain.wildcard.ordinodacasa.it.cert.pem dest=/etc/ssl/ordinodacasa/certs/root-chain.wildcard.ordinodacasa.it.cert.pem mode=0644
+
+- name: copy ssl key
+  copy: src=ssl/intermediate/ordinodacasa/private/wildcard.ordinodacasa.it.key.pem dest=/etc/ssl/ordinodacasa/private/wildcard.ordinodacasa.it.key.pem mode=0600
+

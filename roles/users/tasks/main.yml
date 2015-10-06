@@ -1,0 +1,24 @@
+---
+#let's create users
+
+- name: Ensure passwd is installed
+  apt: name={{ item }} state=present
+  with_items:
+      - passwd
+
+- name: create groups
+  group: name={{ item }}
+  with_items:
+      - dev
+      - admin
+
+- name: create admin users
+  user: name={{ item }} generate_ssh_key=yes groups=admin,dev append=yes
+  with_items:
+      - phra
+
+- name: create dev users
+  user: name={{ item }} generate_ssh_key=yes groups=dev append=yes
+  with_items:
+      - ale
+      - gabriele

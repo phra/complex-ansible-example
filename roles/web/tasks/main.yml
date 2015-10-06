@@ -1,0 +1,11 @@
+---
+
+# httpd is handled by the base-apache role upstream
+- name: Install php 
+  yum: name={{ item }} state=present
+  with_items:
+   - php
+   - php-mysql
+
+- name: Copy the code from repository
+  git: repo={{ repository }} version={{ webapp_version }} dest=/var/www/html/

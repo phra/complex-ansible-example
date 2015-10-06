@@ -1,0 +1,21 @@
+---
+# This role installs nginx
+
+- name: Install nginx
+  apt: name={{ item }} state=present
+  with_items:
+      - nginx
+
+- name: start nginx
+  service: name=nginx state=started enabled=yes
+
+- name: copy h5bp tweaks
+  synchronize:
+      src: nginx
+      dest: /etc
+      owner: no
+      group: no
+      rsync_opts:
+          - "--exclude=.git"
+          - "--exclude=sites-*"
+  notify: restart nginx
