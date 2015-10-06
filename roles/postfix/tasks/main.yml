@@ -1,0 +1,18 @@
+---
+
+- name: install postfix
+  apt: name={{ item }} state=present
+  with_items: postfix
+
+- name: start postfix
+  service: name=postfix state=started enabled=yes
+
+- name: copy postfix config
+  synchronize:
+      src: postfix
+      dest: /etc
+      owner: no
+      group: no
+      rsync_opts:
+          - "--exclude=.git"
+  notify: restart postfix
