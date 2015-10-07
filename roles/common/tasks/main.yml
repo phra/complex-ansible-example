@@ -1,6 +1,8 @@
 ---
 # This role contains common plays that will run on all nodes.
 
+- name: add backkports repo
+  apt_repository: repo='deb http://http.debian.net/debian {{ ansible_distribution_release }}-backports main contrib'
 
 - name: Update apt cache
   apt: update_cache=yes cache_valid_time=3600

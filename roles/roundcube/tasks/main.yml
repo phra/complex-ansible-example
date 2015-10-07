@@ -1,0 +1,16 @@
+---
+
+- name: install php5 on apache2
+  apt: name={{ item }} state=present
+  with_items:
+      - libapache2-mod-php5
+
+- name: install roundcube
+  apt: name={{ item }} state=present
+  with_items:
+      - roundcube
+      - roundcube-core
+      - roundcube-mysql
+
+- name: symlink roundcube
+  file: src=/usr/share/roundcube dest=/var/www/html/roundcube state=link
