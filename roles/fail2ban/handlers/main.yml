@@ -1,0 +1,7 @@
+---
+
+- name: restart fail2ban
+  service: name={{ item }} state=restarted
+  with_items:
+      - firehol
+      - fail2ban

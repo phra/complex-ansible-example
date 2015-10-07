@@ -1,0 +1,21 @@
+---
+
+- name: install dovecot
+  apt: name={{ item }} state=present
+  with_items:
+      - dovecot-core
+      - dovecot-imapd
+      - dovecot-pop3d
+
+- name: start dovecot
+  service: name=dovecot state=started enabled=yes
+
+- name: copy dovecot configuration on host
+  synchronize:
+      src: dovecot
+      dest: /etc
+      owner: no
+      group: no
+      rsync_opts:
+          - "--exclude=.git"
+  notify: restart dovecot

@@ -10,3 +10,6 @@
 [submodule "roles/postfix/files/postfix"]
 	path = roles/postfix/files/postfix
 	url = git@bitbucket.org:phra/postfix.git
+[submodule "roles/dovecot/files/dovecot"]
+	path = roles/dovecot/files/dovecot
+	url = git@bitbucket.org:phra/dovecot.git
