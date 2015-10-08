@@ -18,4 +18,5 @@
       group: no
       rsync_opts:
           - "--exclude=.git"
-  notify: restart dovecot
+  notify:
+      - restart dovecot

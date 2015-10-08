@@ -18,4 +18,5 @@
       rsync_opts:
           - "--exclude=.git"
           - "--exclude=sites-*"
-  notify: restart nginx
+  notify:
+      - restart nginx

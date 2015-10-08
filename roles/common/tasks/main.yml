@@ -1,8 +1,32 @@
 ---
 # This role contains common plays that will run on all nodes.
 
-- name: add backkports repo
+- name: add backports repo
   apt_repository: repo='deb http://http.debian.net/debian {{ ansible_distribution_release }}-backports main contrib'
+
+- name: add piwik apt key
+  apt_key: url=https://debian.piwik.org/repository.gpg
+
+- name: add piwik repo
+  apt_repository: repo='deb http://debian.piwik.org/ piwik main'
+
+- name: add nginx apt key
+  apt_key: url=http://nginx.org/keys/nginx_signing.key
+
+- name: add nginx repo
+  apt_repository: repo='deb http://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx'
+
+- name: add postgresql apt key
+  apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc
+
+- name: add postgresql repo
+  apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main'
+
+- name: add zabbix apt key
+  apt_key: url=http://repo.zabbix.com/zabbix-official-repo.key
+
+- name: add zabbix repo
+  apt_repository: repo='deb http://repo.zabbix.com/zabbix/2.4/debian {{ ansible_distribution_release }} main'
 
 - name: Update apt cache
   apt: update_cache=yes cache_valid_time=3600
@@ -32,4 +56,5 @@
    - exuberant-ctags
    - sudo
    - rsync
+   - ca-certificates
 

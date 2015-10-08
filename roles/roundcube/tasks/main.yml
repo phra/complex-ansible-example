@@ -14,3 +14,9 @@
 
 - name: symlink roundcube
   file: src=/usr/share/roundcube dest=/var/www/html/roundcube state=link
+
+- name: touch sendmail log
+  file: path=/var/log/roundcube/sendmail state=touch
+
+- name: touch errors log
+  file: path=/var/log/roundcube/errors state=touch

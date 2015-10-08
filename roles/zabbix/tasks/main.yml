@@ -1,0 +1,13 @@
+---
+
+- name: install zabbix
+  apt: name={{ item }}
+  with_items:
+      - zabbix-agent
+      - zabbix-server-mysql
+      - zabbix-frontend-php
+
+- name: copy php.ini
+  copy: src=php.ini dest=/etc/php5/apache2/php.ini
+  notify:
+      - restart apache2 zabbix

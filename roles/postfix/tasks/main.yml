@@ -16,4 +16,5 @@
       group: no
       rsync_opts:
           - "--exclude=.git"
-  notify: restart postfix
+  notify:
+      - restart postfix

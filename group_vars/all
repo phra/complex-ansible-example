@@ -1,3 +1,6 @@
 ---
 # Variables here are applicable to all host groups
 
+mysql_port: 3306
+apache2_port: 81
+apache2_port_ssl: 444

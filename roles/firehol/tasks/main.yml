@@ -11,4 +11,5 @@
 
 - name: enable firehol
   copy: src=firehol dest=/etc/default/firehol
-  notify: restart firehol
+  notify:
+      - restart firehol

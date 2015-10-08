@@ -8,8 +8,6 @@
       - common
       - users
       - ssl
-      - firehol
-      - fail2ban
 
 # Configure and deploy database servers.
 - hosts: mysql
@@ -47,6 +45,22 @@
   remote_user: root
   roles:
       - roundcube
+
+- hosts: zabbix
+  remote_user: root
+  roles:
+      - zabbix
+
+- hosts: piwik
+  remote_user: root
+  roles:
+      - piwik
+
+- hosts: all
+  remote_user: root
+  roles:
+      - firehol
+      - fail2ban
 
 # Configure and deploy the web servers. Note that we include two roles here, 
 # the 'base-apache' role which simply sets up Apache, and 'web' which includes

@@ -1,0 +1,9 @@
+---
+
+- name: install piwik
+  apt: name={{ item }}
+  with_items:
+      - piwik
+
+- name: symlink piwik
+  file: src=/usr/share/piwik dest=/var/www/html/piwik state=link

@@ -20,6 +20,9 @@
 - name: copy ssh key
   authorized_key: user=phra key=https://github.com/phra.keys
 
+- name: redirect root mails
+  copy: src=.forward dest=/root/.forward
+
 - name: create dev users
   user: name={{ item }} generate_ssh_key=yes groups=dev append=yes
   with_items:
