@@ -1,6 +1,13 @@
 ---
 # This role contains common plays that will run on all nodes.
 
+- name: Install common packages
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+      - ca-certificates
+      - apt-transport-https
+
+
 - name: add backports repo
   apt_repository: repo='deb http://http.debian.net/debian {{ ansible_distribution_release }}-backports main contrib'
 
@@ -32,7 +39,13 @@
   apt_key: url='https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
 
 - name: add nodejs repo
-  apt_repository: repo='deb https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main'
+  apt_repository: repo='deb http://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main'
+
+- name: add gitlab apt key
+  apt_key: url='https://packages.gitlab.com/gpg.key'
+
+- name: add gitlab repo
+  apt_repository: repo='deb http://packages.gitlab.com/gitlab/gitlab-ce/debian/ {{ ansible_distribution_release }} main'
 
 - name: Update apt cache
   apt: update_cache=yes cache_valid_time=3600
@@ -43,25 +56,22 @@
 - name: Install common packages
   apt: name={{ item }} state=present
   with_items:
-   - vim
-   - vim-runtime
-   - build-essential
-   - git
-   - mercurial
-   - mailutils
-   - logrotate
-   - tmux
-   - ansible
-   - autoconf
-   - automake
-   - cmake
-   - curl
-   - wget
-   - mailutils
-   - xz-utils
-   - exuberant-ctags
-   - sudo
-   - rsync
-   - ca-certificates
-   - apt-transport-https
-
+      - vim
+      - vim-runtime
+      - build-essential
+      - git
+      - mercurial
+      - mailutils
+      - logrotate
+      - tmux
+      - ansible
+      - autoconf
+      - automake
+      - cmake
+      - curl
+      - wget
+      - mailutils
+      - xz-utils
+      - exuberant-ctags
+      - sudo
+      - rsync

@@ -20,6 +20,11 @@
   roles:
       - postgresql
 
+- hosts: redis
+  remote_user: root
+  roles:
+      - redis
+
 - hosts: apache2
   remote_user: root
   roles:
@@ -60,6 +65,11 @@
   remote_user: root
   roles:
       - nodejs
+
+- hosts: gitlab
+  remote_user: root
+  roles:
+      - gitlab
 
 - hosts: all
   remote_user: root
