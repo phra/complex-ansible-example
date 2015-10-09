@@ -56,6 +56,11 @@
   roles:
       - piwik
 
+- hosts: nodejs
+  remote_user: root
+  roles:
+      - nodejs
+
 - hosts: all
   remote_user: root
   roles:

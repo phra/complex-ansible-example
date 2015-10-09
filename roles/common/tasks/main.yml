@@ -28,6 +28,12 @@
 - name: add zabbix repo
   apt_repository: repo='deb http://repo.zabbix.com/zabbix/2.4/debian {{ ansible_distribution_release }} main'
 
+- name: add nodejs apt key
+  apt_key: url='https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
+
+- name: add nodejs repo
+  apt_repository: repo='deb https://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main'
+
 - name: Update apt cache
   apt: update_cache=yes cache_valid_time=3600
 
@@ -57,4 +63,5 @@
    - sudo
    - rsync
    - ca-certificates
+   - apt-transport-https
 

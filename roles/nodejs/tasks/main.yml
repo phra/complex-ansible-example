@@ -1,0 +1,6 @@
+---
+
+- name: install nodejs
+  apt: name={{ item }}
+  with_items:
+      - nodejs
