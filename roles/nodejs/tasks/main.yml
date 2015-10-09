@@ -4,3 +4,8 @@
   apt: name={{ item }}
   with_items:
       - nodejs
+
+- name: install pm2
+  npm: name={{ item }} global=yes state=latest
+  with_items:
+      - pm2
