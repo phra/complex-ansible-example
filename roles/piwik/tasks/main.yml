@@ -5,5 +5,19 @@
   with_items:
       - piwik
 
-- name: symlink piwik
-  file: src=/usr/share/piwik dest=/var/www/html/piwik state=link
+- name: copy piwik apache2 vhost
+  copy: src=piwik.ordinodacasa.it.apache2 dest=/etc/apache2/sites-available/piwik.ordinodacasa.it.conf
+
+- name: symlink piwik apache2
+  file: src=/etc/apache2/sites-available/piwik.ordinodacasa.it.conf dest=/etc/apache2/sites-enabled/piwik.ordinodacasa.it.conf state=link
+  notify:
+      - reload apache2
+
+- name: copy piwik nginx vhost
+  copy: src=piwik.ordinodacasa.it.nginx dest=/etc/nginx/sites-available/piwik.ordinodacasa.it
+
+- name: symlink piwik nginx
+  file: src=/etc/nginx/sites-available/piwik.ordinodacasa.it dest=/etc/nginx/sites-enabled/piwik.ordinodacasa.it state=link
+  notify:
+      - reload nginx
+

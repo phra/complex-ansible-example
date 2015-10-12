@@ -1,17 +1,10 @@
 ---
 # This role installs reverse proxy on nginx
 
-- name: copy sites-available dirs on remote host
-  synchronize:
-      src: nginx/sites-available
-      dest: /etc/nginx
-      owner: no
-      group: no
+- name: copy www vhost
+  copy: src=www.ordinodacasa.it dest=/etc/nginx/sites-available/www.ordinodacasa.it
 
-- name: copy sites-enabled dirs on remote host
-  synchronize:
-      src: nginx/sites-enabled
-      dest: /etc/nginx
-      owner: no
-      group: no
+- name: symlink www
+  file: src=/etc/nginx/sites-available/www.ordinodacasa.it dest=/etc/nginx/sites-enabled/www.ordinodacasa.it state=link
   notify: restart nginx
+

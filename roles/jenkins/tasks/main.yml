@@ -1,0 +1,22 @@
+---
+
+- name: install jenkins
+  apt: name={{ item }}
+  with_items:
+      - jenkins
+
+- name: change default port
+  lineinfile: dest=/etc/default/jenkins regexp=^HTTP_PORT= line=HTTP_PORT={{ jenkins_port }}
+  notify:
+      - restart jenkins
+
+- name: copy jenkins nginx vhost
+  template: src=jenkins.ordinodacasa.it.nginx.j2 dest=/etc/nginx/sites-available/jenkins.ordinodacasa.it
+  notify:
+      - reload nginx
+
+- name: symlink jenkins nginx
+  file: src=/etc/nginx/sites-available/jenkins.ordinodacasa.it dest=/etc/nginx/sites-enabled/jenkins.ordinodacasa.it state=link
+  notify:
+      - reload nginx
+

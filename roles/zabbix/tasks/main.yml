@@ -1,13 +1,27 @@
 ---
-
 - name: install zabbix
-  apt: name={{ item }}
+  apt: name={{ item }} state=present
   with_items:
       - zabbix-agent
       - zabbix-server-mysql
       - zabbix-frontend-php
 
-- name: copy php.ini
-  copy: src=php.ini dest=/etc/php5/apache2/php.ini
+- name: copy zabbix apache2 vhost
+  copy: src=zabbix.ordinodacasa.it.apache2 dest=/etc/apache2/sites-available/zabbix.ordinodacasa.it.conf
   notify:
-      - restart apache2 zabbix
+      - reload apache2
+
+- name: symlink zabbix apache2
+  file: src=/etc/apache2/sites-available/zabbix.ordinodacasa.it.conf dest=/etc/apache2/sites-enabled/zabbix.ordinodacasa.it.conf state=link
+  notify:
+      - reload apache2
+
+- name: copy zabbix nginx vhost
+  copy: src=zabbix.ordinodacasa.it.nginx dest=/etc/nginx/sites-available/zabbix.ordinodacasa.it
+  notify:
+      - reload nginx
+
+- name: symlink zabbix nginx
+  file: src=/etc/nginx/sites-available/zabbix.ordinodacasa.it dest=/etc/nginx/sites-enabled/zabbix.ordinodacasa.it state=link
+  notify:
+      - reload nginx

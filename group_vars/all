@@ -4,3 +4,14 @@
 mysql_port: 3306
 apache2_port: 81
 apache2_port_ssl: 444
+gogs_port: 8889
+gogs_db: gogs
+gogs_db_user: gogs
+gogs_db_pass: gogs
+gogs_secret: NNOtfhfNe1iJyyef1!
+jenkins_port: 8888
+swapfile_location: /mnt/swapfile
+swapfile_size: 2048MB
+swapfile_swappiness: 20
+swapfile_vfs_cache_pressure: False
+swapfile_use_dd: False

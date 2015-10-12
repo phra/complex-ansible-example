@@ -1,0 +1,25 @@
+---
+- name: install gogs
+  apt: name={{ item }}
+  with_items:
+      - gogs
+
+- name: create gogs mysql db
+  mysql_db: name={{ gogs_db }}
+
+- name: create gogs mysql user
+  mysql_user: name={{ gogs_db_user }} password={{ gogs_db_pass }} priv={{ gogs_db }}.*:ALL
+
+- name: copy gogs conf
+  template: src=app.ini.j2 dest=/opt/gogs/custom/conf/app.ini 
+  notify: restart gogs
+
+- name: copy gogs nginx vhost
+  template: src=gogs.ordinodacasa.it.nginx.j2 dest=/etc/nginx/sites-available/gogs.ordinodacasa.it
+  notify:
+      - reload nginx
+
+- name: symlink gogs nginx
+  file: src=/etc/nginx/sites-available/gogs.ordinodacasa.it dest=/etc/nginx/sites-enabled/gogs.ordinodacasa.it state=link
+  notify:
+      - reload nginx

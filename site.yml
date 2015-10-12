@@ -7,6 +7,7 @@
   roles:
       - common
       - users
+      - ansible-swapfile
       - ssl
 
 # Configure and deploy database servers.
@@ -61,15 +62,35 @@
   roles:
       - piwik
 
+- hosts: gogs
+  remote_user: root
+  roles:
+      - gogs
+
+- hosts: jenkins
+  remote_user: root
+  roles:
+      - jenkins
+
 - hosts: nodejs
   remote_user: root
   roles:
       - nodejs
 
-- hosts: gitlab
+#- hosts: gitlab
+#  remote_user: root
+#  roles:
+#      - gitlab
+
+- hosts: gogs
   remote_user: root
   roles:
-      - gitlab
+      - gogs
+
+- hosts: jenkins
+  remote_user: root
+  roles:
+      - jenkins
 
 - hosts: all
   remote_user: root

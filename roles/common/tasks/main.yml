@@ -41,11 +41,23 @@
 - name: add nodejs repo
   apt_repository: repo='deb http://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main'
 
-- name: add gitlab apt key
-  apt_key: url='https://packages.gitlab.com/gpg.key'
+- name: add jenkins apt key
+  apt_key: url='http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key'
 
-- name: add gitlab repo
-  apt_repository: repo='deb http://packages.gitlab.com/gitlab/gitlab-ce/debian/ {{ ansible_distribution_release }} main'
+- name: add jenkins repo
+  apt_repository: repo='deb http://pkg.jenkins-ci.org/debian binary/'
+
+#- name: add gitlab apt key
+#  apt_key: url='https://packages.gitlab.com/gpg.key'
+
+#- name: add gitlab repo
+#  apt_repository: repo='deb http://packages.gitlab.com/gitlab/gitlab-ce/debian/ {{ ansible_distribution_release }} main'
+
+- name: add packager apt key
+  apt_key: url='https://deb.packager.io/key'
+
+- name: add packager-gogs repo
+  apt_repository: repo='deb https://deb.packager.io/gh/pkgr/gogs {{ ansible_distribution_release }} pkgr'
 
 - name: Update apt cache
   apt: update_cache=yes cache_valid_time=3600
@@ -75,3 +87,4 @@
       - exuberant-ctags
       - sudo
       - rsync
+      - htop

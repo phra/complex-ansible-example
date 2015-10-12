@@ -1,0 +1,61 @@
+# www to non-www redirect -- duplicate content is BAD:
+# https://github.com/h5bp/html5-boilerplate/blob/5370479476dceae7cc3ea105946536d6bc0ee468/.htaccess#L362
+# Choose between www and non-www, listen on the *wrong* one and redirect to
+# the right one -- http://wiki.nginx.org/Pitfalls#Server_Name
+
+upstream piwik {
+    server localhost:81;
+}
+
+server {
+    # don't forget to tell on which port this server listens
+    listen [::]:80;
+    listen 80;
+
+    # listen on the www host
+    server_name piwik.ordinodacasa.it;
+    # and redirect to the non-www host (declared below)
+    return 301 https://piwik.ordinodacasa.it$request_uri;
+}
+
+server {
+    listen [::]:80;
+    listen 80;
+    server_name piwik.ordinodacasa.no-ip.org;
+    return 301 https://piwik.ordinodacasa.no-ip.org$request_uri;
+}
+
+server {
+    ssl_certificate /etc/ssl/ordinodacasa/certs/root-chain.wildcard.ordinodacasa.it.cert.pem;
+    ssl_certificate_key /etc/ssl/ordinodacasa/private/wildcard.ordinodacasa.it.key.pem;
+
+    listen [::]:443 ssl spdy;
+    listen 443 ssl spdy;
+
+    # The host name to respond to
+    server_name piwik.ordinodacasa.it piwik.ordinodacasa.no-ip.org;
+
+    limit_req zone=one burst=50;
+    #Specify a charset
+    charset utf-8;
+
+    location ~ /\. {
+        deny all;
+    }
+
+    location / {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $http_host;
+        proxy_pass http://piwik;
+        proxy_http_version 1.1;
+        proxy_redirect default;
+        proxy_intercept_errors on;
+    }
+
+    # Custom 404 page
+    error_page 404 /404.html;
+
+    # Include the basic h5bp config set
+    include h5bp/basic.conf;
+}
