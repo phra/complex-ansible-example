@@ -3,8 +3,7 @@
 # Choose between www and non-www, listen on the *wrong* one and redirect to
 # the right one -- http://wiki.nginx.org/Pitfalls#Server_Name
 upstream node {
-    #server localhost:3000;
-    server localhost:3006;
+    server localhost:3000;
 }
 
 upstream io {
@@ -22,9 +21,9 @@ server {
     listen 80 deferred;
 
     # listen on the www host
-    server_name www.ordinodacasa.it ordinodacasa.it;
+    server_name _ www.ordinodacasa.it ordinodacasa.it;
     # and redirect to the non-www host (declared below)
-    return 301 https://ordinodacasa.it$request_uri;
+    return 301 https://www.ordinodacasa.it$request_uri;
 }
 
 server {
@@ -45,9 +44,7 @@ server {
     server_name _ ordinodacasa.it www.ordinodacasa.it ordinodacasa.no-ip.org;
 
     # Path for static files
-    #root /home/node/dploy/staging/crowdfunding/current/client/dist/;
-    #root /home/gabriele/projects/crowdfunding/client/dist;
-    root /home/phra/git/crowdfunding/client/dist;
+    root /home/node/deploy/staging/crowdfunding/current/client/dist/;
     index index.html;
     try_files $uri @prerender;
     limit_req zone=one burst=50;
@@ -121,50 +118,6 @@ server {
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
     }
-
-    #location /piwik {
-    #    proxy_set_header X-Real-IP $remote_addr;
-    #    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    #    proxy_set_header Host $http_host;
-    #    proxy_pass http://apache;
-    #    proxy_http_version 1.1;
-    #    proxy_redirect http://$http_host:81/ /;
-    #    proxy_intercept_errors on;
-    #}
-
-    #location /zabbix {
-    #    proxy_set_header X-Real-IP $remote_addr;
-    #    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    #    proxy_set_header Host $http_host;
-    #    proxy_pass http://apache;
-    #    proxy_http_version 1.1;
-    #    proxy_redirect http://$http_host:81/ /;
-    #    proxy_intercept_errors on;
-    #}
-    
-    #location /roundcube {
-    #    proxy_set_header X-Real-IP $remote_addr;
-    #    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    #    proxy_set_header Host $http_host;
-    #    proxy_pass http://apache;
-    #    proxy_http_version 1.1;
-    #    proxy_redirect http://$http_host:81/ /;
-    #    proxy_intercept_errors on;
-    #}
-
-    #location /gogs {
-    #    proxy_set_header X-Real-IP $remote_addr;
-    #    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-    #    proxy_set_header Host $http_host;
-    #    proxy_pass http://gogs;
-    #    proxy_http_version 1.1;
-    #    proxy_redirect / /gogs/;
-	#    rewrite ^/gogs(.*)$ $1  break;
-	#    sub_filter 'href="/' 'href="/gogs/';
-	#    sub_filter 'src="/' 'src="/gogs/';
-	#    sub_filter_once off;
-    #    proxy_intercept_errors on;
-    #}
 
     # Custom 404 page
     error_page 404 /404.html;

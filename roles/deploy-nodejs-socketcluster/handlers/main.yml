@@ -1,0 +1,8 @@
+---
+
+- name: deploy socketcluster
+  command: pm2 deploy ecosystem.json5 staging chdir=/home/node/git/socketcluster
+  sudo: yes
+  sudo_user: node
+  async: 1800
+  poll: 120

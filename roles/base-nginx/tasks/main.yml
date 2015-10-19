@@ -6,9 +6,6 @@
   with_items:
       - nginx
 
-- name: start nginx
-  service: name=nginx state=started enabled=yes
-
 - name: copy h5bp tweaks
   synchronize:
       src: nginx

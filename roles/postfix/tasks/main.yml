@@ -5,9 +5,6 @@
   with_items: 
       - postfix
 
-- name: start postfix
-  service: name=postfix state=started enabled=yes
-
 - name: copy postfix config
   synchronize:
       src: postfix

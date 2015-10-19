@@ -3,9 +3,6 @@
 - name: install firehol
   apt: name=firehol state=present
 
-- name: start firehol
-  service: name=firehol state=started enabled=yes
-
 - name: copy firehol conf
   copy: src=firehol.conf dest=/etc/firehol/firehol.conf
 

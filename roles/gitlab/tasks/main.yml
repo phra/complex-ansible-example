@@ -1,6 +1,0 @@
----
-
-- name: install gitlab
-  apt: name={{ item }}
-  with_items:
-      - gitlab-ce

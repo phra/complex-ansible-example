@@ -1,0 +1,42 @@
+---
+
+- name: copy private ssh deploy key
+  copy: src=bitbucket dest=/home/node/.ssh/bitbucket mode=0600
+  sudo: yes
+  sudo_user: node
+
+- name: copy public ssh deploy key
+  copy: src=bitbucket.pub dest=/home/node/.ssh/bitbucket.pub
+  sudo: yes
+  sudo_user: node
+
+- name: copy ssh config
+  copy: src=config dest=/home/node/.ssh/config
+  sudo: yes
+  sudo_user: node
+
+- name: retrive localhost key
+  command: ssh-keyscan -H localhost
+  register: keyscan1
+
+- name: retrive bitbucket key
+  command: ssh-keyscan -H bitbucket.org
+  register: keyscan2
+
+- name: retrive id_rsa.pub
+  command: cat /home/node/.ssh/id_rsa.pub
+  register: key
+
+- name: add ability to ssh to localhost
+  authorized_key: user=node key="{{ key.stdout }}"
+
+- name: add localhost to known hosts
+  known_hosts: name=localhost key="{{ keyscan1.stdout }}"
+  sudo: yes
+  sudo_user: node
+
+- name: add bitbucket to known hosts
+  known_hosts: name=bitbucket.org key="{{ keyscan2.stdout }}"
+  sudo: yes
+  sudo_user: node
+

@@ -1,0 +1,37 @@
+---
+
+- name: create postgresql user
+  postgresql_user: name=node
+  sudo: yes
+  sudo_user: postgres
+
+- name: create postgresql db
+  postgresql_db: name=crowdfunding owner=node
+  sudo: yes
+  sudo_user: postgres
+
+- name: create /storage dir
+  file: path=/storage state=directory mode=0750 owner=node group=node
+
+- name: clone repo
+  git: repo=git@bitbucket.org:dovps/crowdfunding.git version=ansible dest=/home/node/git/crowdfunding
+  sudo: yes
+  sudo_user: node
+  notify: deploy crowdfunding
+
+- name: setup pm2
+  command: pm2 deploy ecosystem.json5 staging setup
+  sudo: yes
+  sudo_user: node
+  args:
+      chdir: /home/node/git/crowdfunding
+      creates: /home/node/deploy/staging/crowdfunding/source
+
+- name: copy www vhost
+  copy: src=www.ordinodacasa.it dest=/etc/nginx/sites-available/www.ordinodacasa.it
+  notify: reload nginx
+
+- name: symlink www
+  file: src=/etc/nginx/sites-available/www.ordinodacasa.it dest=/etc/nginx/sites-enabled/www.ordinodacasa.it state=link
+  notify: reload nginx
+

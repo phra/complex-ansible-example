@@ -6,9 +6,6 @@
       - roundcube-core
       - roundcube-mysql
 
-#- name: symlink roundcube
-#  file: src=/usr/share/roundcube dest=/var/www/html/roundcube state=link
-
 - name: copy roundcube apache2 vhost
   copy: src=roundcube.ordinodacasa.it.apache2 dest=/etc/apache2/sites-available/roundcube.ordinodacasa.it.conf
   notify:

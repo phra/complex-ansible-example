@@ -1,0 +1,11 @@
+---
+
+- name: reload nginx
+  service: name=nginx state=reloaded
+
+- name: deploy crowdfunding
+  command: pm2 deploy ecosystem.json5 staging chdir=/home/node/git/crowdfunding
+  sudo: yes
+  sudo_user: node
+  async: 1800
+  poll: 120

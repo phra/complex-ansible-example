@@ -5,9 +5,6 @@
   with_items:
       - fail2ban
 
-- name: start fail2ban
-  service: name=fail2ban state=started enabled=yes
-
 - name: copy fail2ban conf
   copy: src=jail.local dest=/etc/fail2ban/jail.local
   notify:

@@ -7,16 +7,3 @@
    - mysql-server
    - python-mysqldb
 
-#- name: Create Mysql configuration file
-#  template: src=my.cnf.j2 dest=/etc/my.cnf
-#  notify: 
-#  - restart mysql
-
-- name: Start Mysql Service
-  service: name=mysql state=started enabled=yes
-
-#- name: Create Application Database
-#  mysql_db: name={{ dbname }} state=present
-
-#- name: Create Application DB User
-#  mysql_user: name={{ dbuser }} password={{ upassword }} priv=*.*:ALL host='%' state=present

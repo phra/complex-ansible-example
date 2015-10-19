@@ -7,9 +7,6 @@
       - dovecot-imapd
       - dovecot-pop3d
 
-- name: start dovecot
-  service: name=dovecot state=started enabled=yes
-
 - name: copy dovecot configuration on host
   synchronize:
       src: dovecot

@@ -1,12 +1,26 @@
 ---
-# This role contains common plays that will run on all nodes.
+
+- name: tweak sshd config | PermitRootLogin
+  lineinfile: dest=/etc/ssh/sshd_config regexp=^PermitRootLogin line="PermitRootLogin without-password"
+  notify: restart sshd
+
+- name: tweak sshd config | TCPKeepAlive
+  lineinfile: dest=/etc/ssh/sshd_config regexp=^TCPKeepAlive line="TCPKeepAlive yes"
+  notify: restart sshd
+
+- name: tweak sshd config | ClientAliveInterval
+  lineinfile: dest=/etc/ssh/sshd_config regexp=^ClientAliveInterval line="ClientAliveInterval 180"
+  notify: restart sshd
+
+- name: tweak sshd config | ClientAliveCountMax
+  lineinfile: dest=/etc/ssh/sshd_config regexp=^ClientAliveCountMax line="ClientAliveCountMax 2"
+  notify: restart sshd 
 
 - name: Install common packages
   apt: name={{ item }} state=present update_cache=yes
   with_items:
       - ca-certificates
       - apt-transport-https
-
 
 - name: add backports repo
   apt_repository: repo='deb http://http.debian.net/debian {{ ansible_distribution_release }}-backports main contrib'
@@ -88,3 +102,4 @@
       - sudo
       - rsync
       - htop
+

@@ -5,6 +5,14 @@
   with_items:
       - jenkins
 
+- name: add jenkins to shadow group
+  user: name=jenkins groups=shadow append=yes
+
+- name: copy jenkins config
+  copy: src=config.xml dest=/var/lib/jenkins/config.xml
+  notify:
+      - restart jenkins
+
 - name: change default port
   lineinfile: dest=/etc/default/jenkins regexp=^HTTP_PORT= line=HTTP_PORT={{ jenkins_port }}
   notify:

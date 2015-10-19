@@ -4,7 +4,6 @@
 - name: Install Postgresql package
   apt: name={{ item }} state=present
   with_items:
-   - postgresql
+      - postgresql
+      - python-psycopg2
 
-- name: Start Postgresql Service
-  service: name=postgresql state=started enabled=yes

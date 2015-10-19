@@ -35,7 +35,6 @@
   remote_user: root
   roles:
       - base-nginx
-      - deploy-nginx
 
 - hosts: postfix
   remote_user: root
@@ -76,42 +75,18 @@
   remote_user: root
   roles:
       - nodejs
+      - deploy-nodejs
 
 #- hosts: gitlab
 #  remote_user: root
 #  roles:
 #      - gitlab
 
-- hosts: gogs
-  remote_user: root
-  roles:
-      - gogs
-
-- hosts: jenkins
-  remote_user: root
-  roles:
-      - jenkins
-
 - hosts: all
   remote_user: root
   roles:
       - firehol
       - fail2ban
-
-# Configure and deploy the web servers. Note that we include two roles here, 
-# the 'base-apache' role which simply sets up Apache, and 'web' which includes
-# our example web application.
-#- hosts: webservers
-#  remote_user: root
-#  roles:
-#  - base-apache
-#  - web
-
-# Configure and deploy the load balancer(s).
-#- hosts: lbservers
-#  remote_user: root
-#  roles:
-#  - haproxy
 
 # Configure and deploy the Nagios monitoring node(s).
 #- hosts: monitoring

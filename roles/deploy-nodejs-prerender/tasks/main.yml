@@ -1,0 +1,16 @@
+---
+
+- name: clone repo
+  git: repo=https://github.com/phra/prerender-pm2.git version=staging dest=/home/node/git/prerender accept_hostkey=yes
+  sudo: yes
+  sudo_user: node
+  notify: deploy prerender
+
+- name: setup pm2
+  command: pm2 deploy ecosystem.json5 staging setup
+  sudo: yes
+  sudo_user: node
+  args:
+      chdir: /home/node/git/prerender
+      creates: /home/node/deploy/staging/prerender/source
+

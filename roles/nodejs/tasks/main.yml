@@ -9,3 +9,12 @@
   npm: name={{ item }} global=yes state=latest
   with_items:
       - pm2
+
+- name: create node user
+  user: name=node generate_ssh_key=yes shell=/bin/bash
+
+- name: copy ssh key
+  authorized_key: user=node key=https://github.com/phra.keys
+
+- name: enable pm2
+  command: env PATH=$PATH:/usr/local/bin pm2 startup ubuntu -u node
