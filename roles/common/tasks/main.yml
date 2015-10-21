@@ -102,4 +102,8 @@
       - sudo
       - rsync
       - htop
+      - python-pip
+      - python-virtualenv
 
+- name: create backup directory
+  file: path=/home/backups state=directory mode=0711

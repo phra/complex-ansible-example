@@ -11,7 +11,7 @@
   sudo_user: postgres
 
 - name: create /storage dir
-  file: path=/storage state=directory mode=0750 owner=node group=node
+  file: path=/storage state=directory mode=2770 owner=node group=node
 
 - name: clone repo
   git: repo=git@bitbucket.org:dovps/crowdfunding.git version=ansible dest=/home/node/git/crowdfunding

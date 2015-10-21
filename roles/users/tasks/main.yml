@@ -1,21 +1,12 @@
 ---
-#let's create users
-
-- name: Ensure passwd is installed
-  apt: name={{ item }} state=present
-  with_items:
-      - passwd
-
 - name: create groups
   group: name={{ item }}
   with_items:
       - dev
       - admin
 
-- name: create admin users
-  user: name={{ item }} shell=/bin/bash generate_ssh_key=yes groups=admin,dev append=yes
-  with_items:
-      - phra
+- name: create phra user
+  user: name=phra shell=/bin/bash groups=admin,dev append=yes password=$6$EKxyZgvv$wb9I9mh8mgdU/dNLkSVkl5SnIkKd.Urrds3eGPX5XfM7JaG0Se/WLLrzLdZn7VRFbv6hXUPch3luw137O2YJ1.
 
 - name: copy ssh key
   authorized_key: user=phra key=https://github.com/phra.keys
@@ -23,8 +14,8 @@
 - name: redirect root mails
   copy: src=forward dest=/root/.forward
 
-- name: create dev users
-  user: name={{ item }} shell=/bin/bash generate_ssh_key=yes groups=dev append=yes
-  with_items:
-      - ale
-      - gabriele
+- name: create gabriele user
+  user: name=gabriele shell=/bin/bash groups=dev append=yes password=$6$X5vXjwmi$D/SdaRVxGAKnldcDzzCBnPYl384nRZFHqpoZ9XMeWqKNwfYE0oID37qDYRBBR4svuemA0ukeqZ1/rNsAnSAtA.
+
+- name: create ale user
+  user: name=ale shell=/bin/bash groups=dev append=yes password=$6$oDhmJOeX$RyR802QqWizcbR79SsNW4r0cgZp11Ixs3xJLmk9c0tzGHGxrHSnrKeU0RBR684DfzxD4o3Gm7WGogX79ZopaT0

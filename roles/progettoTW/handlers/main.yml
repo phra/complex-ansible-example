@@ -1,0 +1,20 @@
+---
+
+- name: seed trovatutto db
+  copy: src=trovatutto.sql.gz dest=/tmp/trovatutto.sql.gz owner=postgres group=postgres mode=0400
+  notify: seed trovatutto db2
+
+- name: seed trovatutto db2
+  shell: zcat /tmp/trovatutto.sql.gz | psql trovatutto
+  sudo: yes
+  sudo_user: postgres
+
+- name: reload apache2
+  service: name={{ item }} state=reloaded
+  with_items:
+      - apache2
+
+- name: reload nginx
+  service: name={{ item }} state=reloaded
+  with_items:
+      - nginx

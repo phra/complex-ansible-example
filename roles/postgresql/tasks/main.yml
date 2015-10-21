@@ -1,5 +1,4 @@
 ---
-# This role will install MySQL and create db user and give permissions.
 
 - name: Install Postgresql package
   apt: name={{ item }} state=present
@@ -7,3 +6,14 @@
       - postgresql
       - python-psycopg2
 
+- name: create postgres backup directory
+  file: path=/home/backups/postgresql state=directory owner=root group=postgres mode=0770
+
+- name: set up backup config
+  copy: src=pg_backup.config dest=/home/backups/postgresql/pg_backup.config owner=root group=postgres mode=0640
+
+- name: set up backup
+  copy: src=pg_backup_rotated.sh dest=/home/backups/postgresql/pg_backup_rotated.sh owner=root group=postgres mode=0650
+
+- name: set up cron job
+  cron: name="backup postgresql" user=postgres special_time=daily job="(export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin; /home/backups/postgresql/pg_backup_rotated.sh)"

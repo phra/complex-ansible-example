@@ -1,0 +1,41 @@
+---
+
+- name: install deps
+  pip: name={{ item }}
+  with_items:
+      - rdflib
+      - rdfextras
+
+- name: create trovatutto user
+  postgresql_user: name=trovatutto
+  sudo: yes
+  sudo_user: postgres
+
+- name: create trovatutto db
+  postgresql_db: name=trovatutto owner=trovatutto
+  sudo: yes
+  sudo_user: postgres
+  notify: seed trovatutto db
+
+- name: clone repo
+  git: repo=https://github.com/phra/progettoTW.git version=master dest=/var/www/html/progettoTW accept_hostkey=yes
+
+- name: enable mod_rewrite
+  file: src=/etc/apache2/mods-available/rewrite.load dest=/etc/apache2/mods-enabled/rewrite.load state=link
+  notify: reload apache2
+
+- name: copy apache2 vhost
+  copy: src=000-default.conf dest=/etc/apache2/sites-available/000-default.conf
+  notify: reload apache2
+
+- name: symlink apache2 vhost
+  file: src=/etc/apache2/sites-available/000-default.conf dest=/etc/apache2/sites-enabled/000-default.conf state=link
+  notify: reload apache2
+
+- name: copy nginx vhost
+  copy: src=fattanza.no-ip.org dest=/etc/nginx/sites-available/fattanza.no-ip.org
+  notify: reload nginx
+
+- name: symlink nginx vhost
+  file: src=/etc/nginx/sites-available/fattanza.no-ip.org dest=/etc/nginx/sites-enabled/fattanza.no-ip.org state=link
+  notify: reload nginx

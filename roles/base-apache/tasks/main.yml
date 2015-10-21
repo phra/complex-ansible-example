@@ -11,10 +11,11 @@
   template: src=ports.conf.j2 dest=/etc/apache2/ports.conf
   notify: restart apache2
 
-- name: install php5 on apache2
+- name: install php5 and python on apache2
   apt: name={{ item }} state=present
   with_items:
       - libapache2-mod-php5
+      - libapache2-mod-python
 
 - name: copy php.ini
   copy: src=php.ini dest=/etc/php5/apache2/php.ini

@@ -1,0 +1,90 @@
+---
+# This playbook deploys the whole application stack in this site.  
+
+# Apply common configuration to all hosts
+- hosts: all
+  remote_user: root
+  roles:
+      - common
+      - users
+        #- ansible-swapfile
+      - ssl
+
+# Configure and deploy database servers.
+- hosts: mysql
+  remote_user: root
+  roles:
+      - mysql
+
+- hosts: postgresql
+  remote_user: root
+  roles:
+      - postgresql
+
+- hosts: redis
+  remote_user: root
+  roles:
+      - redis
+
+- hosts: apache2
+  remote_user: root
+  roles:
+      - base-apache
+
+- hosts: nginx
+  remote_user: root
+  roles:
+      - base-nginx
+
+- hosts: postfix
+  remote_user: root
+  roles:
+      - postfix
+
+- hosts: dovecot
+  remote_user: root
+  roles:
+      - dovecot
+
+- hosts: roundcube
+  remote_user: root
+  roles:
+      - roundcube
+
+- hosts: zabbix
+  remote_user: root
+  roles:
+      - zabbix
+
+- hosts: piwik
+  remote_user: root
+  roles:
+      - piwik
+
+- hosts: gogs
+  remote_user: root
+  roles:
+      - gogs
+
+- hosts: jenkins
+  remote_user: root
+  roles:
+      - jenkins
+
+- hosts: nodejs
+  remote_user: root
+  roles:
+      - nodejs
+      - deploy-nodejs
+
+- hosts: progettoTW
+  remote_user: root
+  roles:
+      - progettoTW
+
+- hosts: all
+  remote_user: root
+  roles:
+      - firehol-staging
+      - fail2ban
+
