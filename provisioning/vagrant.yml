@@ -1,0 +1,93 @@
+---
+# This playbook deploys the whole application stack in this site.  
+
+# Apply common configuration to all hosts
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+      - common
+      - users
+      - ansible-swapfile
+      - ssl
+
+# Configure and deploy database servers.
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+      - mysql
+
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+      - postgresql
+
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+      - redis
+
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+      - base-apache
+
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+      - base-nginx
+
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+      - postfix
+
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+      - dovecot
+
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+      - roundcube
+
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+      - zabbix
+
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+      - piwik
+
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+      - gogs
+
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+      - jenkins
+
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  roles:
+      - nodejs
+      - deploy-nodejs
+

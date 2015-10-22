@@ -77,19 +77,8 @@
       - nodejs
       - deploy-nodejs
 
-#- hosts: gitlab
-#  remote_user: root
-#  roles:
-#      - gitlab
-
 - hosts: all
   remote_user: root
   roles:
       - firehol
       - fail2ban
-
-# Configure and deploy the Nagios monitoring node(s).
-#- hosts: monitoring
-#  remote_user: root
-#  roles:
-#      - nagios

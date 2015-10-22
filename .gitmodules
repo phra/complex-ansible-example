@@ -1,18 +1,18 @@
 [submodule "roles/ssl/files/ssl"]
-	path = roles/ssl/files/ssl
+	path = provisioning/roles/ssl/files/ssl
 	url = git@bitbucket.org:phra/ssl.git
 [submodule "roles/base-nginx/files/nginx"]
-	path = roles/base-nginx/files/nginx
+	path = provisioning/roles/base-nginx/files/nginx
 	url = git@bitbucket.org:phra/nginx.git
 [submodule "roles/deploy-nginx/files/nginx"]
-	path = roles/deploy-nginx/files/nginx
+	path = provisioning/roles/deploy-nginx/files/nginx
 	url = git@bitbucket.org:phra/nginx.git
 [submodule "roles/postfix/files/postfix"]
-	path = roles/postfix/files/postfix
+	path = provisioning/roles/postfix/files/postfix
 	url = git@bitbucket.org:phra/postfix.git
 [submodule "roles/dovecot/files/dovecot"]
-	path = roles/dovecot/files/dovecot
+	path = provisioning/roles/dovecot/files/dovecot
 	url = git@bitbucket.org:phra/dovecot.git
 [submodule "roles/ansible-swapfile"]
-	path = roles/ansible-swapfile
+	path = provisioning/roles/ansible-swapfile
 	url = https://github.com/kamaln7/ansible-swapfile.git

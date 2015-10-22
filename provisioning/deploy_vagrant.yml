@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  remote_user: vagrant
+  sudo: yes
+  serial: 1
+  roles:
+      - deploy-nodejs-prerender
+      - deploy-nodejs-socketcluster
+      - deploy-nodejs-crowdfunding
