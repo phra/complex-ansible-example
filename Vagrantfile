@@ -11,7 +11,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "debian/jessie64"
-  config.ssh.insert_key = false
+  config.ssh.private_key_path = ["~/.vagrant.d/insecure_private_key", "~/.ssh/id_rsa"]
+  #config.ssh.insert_key = true
+  #config.ssh.forward_agent = true
 
   config.vm.provider :virtualbox do |v|
     #v.gui = true
@@ -24,6 +26,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.hostname = "mail.ordinodacasa.it"
   config.vm.network :private_network, ip: "192.168.30.30"
+  config.vm.network :forwarded_port, guest: 80, host: 8080
+  config.vm.network :forwarded_port, guest: 443, host: 8443
+  config.vm.network :forwarded_port, guest: 22, host: 2222, id: "ssh", host_ip: "0.0.0.0"
 
   # Ansible provisioner.
   config.vm.provision "ansible" do |ansible|

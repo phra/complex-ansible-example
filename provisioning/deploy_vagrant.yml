@@ -1,8 +1,7 @@
 ---
 
 - hosts: all
-  remote_user: vagrant
-  sudo: yes
+  remote_user: root
   serial: 1
   roles:
       - deploy-nodejs-prerender

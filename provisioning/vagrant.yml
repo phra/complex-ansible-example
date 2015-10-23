@@ -1,10 +1,15 @@
 ---
 # This playbook deploys the whole application stack in this site.  
 
-# Apply common configuration to all hosts
 - hosts: all
   remote_user: vagrant
   sudo: yes
+  roles:
+      - vagrant-pre
+
+# Apply common configuration to all hosts
+- hosts: all
+  remote_user: root
   roles:
       - common
       - users
@@ -13,81 +18,74 @@
 
 # Configure and deploy database servers.
 - hosts: all
-  remote_user: vagrant
-  sudo: yes
+  remote_user: root
   roles:
       - mysql
 
 - hosts: all
-  remote_user: vagrant
-  sudo: yes
+  remote_user: root
   roles:
       - postgresql
 
 - hosts: all
-  remote_user: vagrant
-  sudo: yes
+  remote_user: root
   roles:
       - redis
 
 - hosts: all
-  remote_user: vagrant
-  sudo: yes
+  remote_user: root
   roles:
       - base-apache
 
 - hosts: all
-  remote_user: vagrant
-  sudo: yes
+  remote_user: root
   roles:
       - base-nginx
 
 - hosts: all
-  remote_user: vagrant
-  sudo: yes
+  remote_user: root
   roles:
       - postfix
 
 - hosts: all
-  remote_user: vagrant
-  sudo: yes
+  remote_user: root
   roles:
       - dovecot
 
 - hosts: all
-  remote_user: vagrant
-  sudo: yes
+  remote_user: root
   roles:
       - roundcube
 
 - hosts: all
-  remote_user: vagrant
-  sudo: yes
+  remote_user: root
   roles:
       - zabbix
 
 - hosts: all
-  remote_user: vagrant
-  sudo: yes
+  remote_user: root
   roles:
       - piwik
 
 - hosts: all
-  remote_user: vagrant
-  sudo: yes
+  remote_user: root
   roles:
       - gogs
 
 - hosts: all
-  remote_user: vagrant
-  sudo: yes
+  remote_user: root
   roles:
       - jenkins
 
 - hosts: all
-  remote_user: vagrant
-  sudo: yes
+  remote_user: root
   roles:
       - nodejs
       - deploy-nodejs
+
+- hosts: all
+  remote_user: root
+  roles:
+      - firehol-vagrant
+      - fail2ban
 

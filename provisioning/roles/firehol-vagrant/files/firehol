@@ -1,4 +1,4 @@
 #To enable firehol at startup set START_FIREHOL=YES
 START_FIREHOL=YES
 #If you want to have firehol wait for an iface to be up add it here
-WAIT_FOR_IFACE="eth1"
+WAIT_FOR_IFACE=""

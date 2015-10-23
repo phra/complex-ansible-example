@@ -1,5 +1,8 @@
 ---
 
+#- name: set up resolv.conf
+#  lineinfile: dest=/etc/resolv.conf regexp=^nameserver line="nameserver 8.8.8.8"
+ 
 - name: tweak sshd config | PermitRootLogin
   lineinfile: dest=/etc/ssh/sshd_config regexp=^PermitRootLogin line="PermitRootLogin without-password"
   notify: restart sshd

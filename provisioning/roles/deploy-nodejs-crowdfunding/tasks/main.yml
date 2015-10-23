@@ -10,6 +10,15 @@
   sudo: yes
   sudo_user: postgres
 
+- name: create postgresql dev users
+  postgresql_user: name={{ item }} db=crowdfunding
+  sudo: yes
+  sudo_user: postgres
+  with_items:
+      - phra
+      - ale
+      - gabriele
+
 - name: create /storage dir
   file: path=/storage state=directory mode=2770 owner=node group=node
 
