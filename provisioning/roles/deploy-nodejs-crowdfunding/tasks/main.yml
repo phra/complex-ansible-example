@@ -14,7 +14,7 @@
   file: path=/storage state=directory mode=2770 owner=node group=node
 
 - name: clone repo
-  git: repo=git@bitbucket.org:dovps/crowdfunding.git version=ansible dest=/home/node/git/crowdfunding
+  git: repo=git@bitbucket.org:dovps/crowdfunding.git version=staging dest=/home/node/git/crowdfunding
   sudo: yes
   sudo_user: node
   notify: deploy crowdfunding
