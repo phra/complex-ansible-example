@@ -11,7 +11,16 @@
   sudo_user: postgres
 
 - name: create postgresql dev users
-  postgresql_user: name={{ item }} db=crowdfunding
+  postgresql_user: name={{ item }}
+  sudo: yes
+  sudo_user: postgres
+  with_items:
+      - phra
+      - ale
+      - gabriele
+
+- name: create development db
+  postgresql_db: name=crowdfunding-{{ item }} owner={{ item }}
   sudo: yes
   sudo_user: postgres
   with_items:
