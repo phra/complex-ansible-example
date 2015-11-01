@@ -5,6 +5,18 @@
   with_items:
       - piwik
 
+- name: create gogs mysql db
+  mysql_db: name={{ piwik_db }}
+
+- name: create gogs mysql user
+  mysql_user: name={{ piwik_db_user }} password={{ piwik_db_pass }} priv={{ piwik_db }}.*:ALL
+
+- name: grant FILE permission
+  shell: echo "GRANT FILE ON *.* TO 'piwik'@'localhost';" | sudo mysql
+
+- name: set piwik auto-archive crontab
+  cron: name=piwik-auto-archive minute=5 user=www-data job="/usr/bin/php5 /usr/share/piwik/console core:archive --url=http://piwik.ordinodacasa.it"
+
 - name: copy piwik apache2 vhost
   copy: src=piwik.ordinodacasa.it.apache2 dest=/etc/apache2/sites-available/piwik.ordinodacasa.it.conf
 

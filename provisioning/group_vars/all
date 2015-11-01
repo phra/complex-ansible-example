@@ -8,6 +8,9 @@ gogs_port: 8889
 gogs_db: gogs
 gogs_db_user: gogs
 gogs_db_pass: gogs
+piwik_db: piwik
+piwik_db_user: piwik
+piwik_db_pass: piwik
 gogs_secret: NNOtfhfNe1iJyyef1!
 jenkins_port: 8888
 swapfile_location: /mnt/swapfile
