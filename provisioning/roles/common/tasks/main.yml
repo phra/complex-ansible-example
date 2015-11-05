@@ -108,6 +108,8 @@
       - python-pip
       - python-virtualenv
       - man
+      - xvfb
+      - iceweasel
 
 - name: create backup directory
   file: path=/home/backups state=directory mode=0711

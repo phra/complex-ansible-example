@@ -1,7 +1,7 @@
 ---
 
 - name: clone repo
-  git: repo=https://github.com/phra/prerender-pm2.git version=staging dest=/home/node/git/prerender accept_hostkey=yes
+  git: repo=https://github.com/phra/slimerjs-prerender.git version=pm2 dest=/home/node/git/slimerjs-prerender accept_hostkey=yes
   sudo: yes
   sudo_user: node
   notify: deploy prerender
@@ -13,4 +13,12 @@
   args:
       chdir: /home/node/git/prerender
       creates: /home/node/deploy/staging/prerender/source
+
+- name: copy www vhost
+  copy: src=prerender.ordinodacasa.it dest=/etc/nginx/sites-available/prerender.ordinodacasa.it
+  notify: reload nginx
+
+- name: symlink www
+  file: src=/etc/nginx/sites-available/prerender.ordinodacasa.it dest=/etc/nginx/sites-enabled/prerender.ordinodacasa.it state=link
+  notify: reload nginx
 
