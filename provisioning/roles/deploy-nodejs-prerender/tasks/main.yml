@@ -11,8 +11,8 @@
   sudo: yes
   sudo_user: node
   args:
-      chdir: /home/node/git/prerender
-      creates: /home/node/deploy/staging/prerender/source
+      chdir: /home/node/git/slimerjs-prerender
+      creates: /home/node/deploy/staging/slimerjs-prerender/source
 
 - name: copy www vhost
   copy: src=prerender.ordinodacasa.it dest=/etc/nginx/sites-available/prerender.ordinodacasa.it
