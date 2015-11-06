@@ -28,6 +28,13 @@
       - ale
       - gabriele
 
+- name: add dev users to node group
+  user: name={{ item }} groups=node append=yes
+  with_items:
+      - phra
+      - ale
+      - gabriele
+
 - name: create /storage dir
   file: path=/storage state=directory mode=2770 owner=node group=node
 
