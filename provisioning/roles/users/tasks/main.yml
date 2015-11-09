@@ -16,7 +16,8 @@
   copy: src=forward dest=/root/.forward
 
 - name: create gabriele user
-  user: name=gabriele shell=/bin/bash groups=dev append=yes password=$6$X5vXjwmi$D/SdaRVxGAKnldcDzzCBnPYl384nRZFHqpoZ9XMeWqKNwfYE0oID37qDYRBBR4svuemA0ukeqZ1/rNsAnSAtA.
+  user: name={{ item.user }} shell=/bin/bash groups=dev,sudo append=yes password={{ item.password }}
+  with_items:
+      - { user: 'gabriele', password: '$6$X5vXjwmi$D/SdaRVxGAKnldcDzzCBnPYl384nRZFHqpoZ9XMeWqKNwfYE0oID37qDYRBBR4svuemA0ukeqZ1/rNsAnSAtA.' }
+      - { user: 'ale', password: '$6$oDhmJOeX$RyR802QqWizcbR79SsNW4r0cgZp11Ixs3xJLmk9c0tzGHGxrHSnrKeU0RBR684DfzxD4o3Gm7WGogX79ZopaT0' }
 
-- name: create ale user
-  user: name=ale shell=/bin/bash groups=dev append=yes password=$6$oDhmJOeX$RyR802QqWizcbR79SsNW4r0cgZp11Ixs3xJLmk9c0tzGHGxrHSnrKeU0RBR684DfzxD4o3Gm7WGogX79ZopaT0
