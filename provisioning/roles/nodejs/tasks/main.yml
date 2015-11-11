@@ -17,4 +17,4 @@
   authorized_key: user=node key=https://github.com/phra.keys
 
 - name: enable pm2
-  command: env PATH=$PATH:/usr/local/bin pm2 startup systemd -u node
+  shell: env PATH=$PATH:/usr/local/bin pm2 startup systemd -u node

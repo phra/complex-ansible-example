@@ -1,0 +1,53 @@
+---
+
+- name: install ia32 libs
+  apt: name={{ item }}
+  with_items:
+      - lib32stdc++6
+
+- name: create android dir
+  file: path=/home/{{android_sdk_user}}/android state=directory owner={{android_sdk_user}} group={{android_sdk_user}}
+
+- name: download android sdk
+  sudo: yes
+  sudo_user: "{{ android_sdk_user }}"
+  get_url: url=https://dl.google.com/android/{{android_sdk_version}}.tgz dest=/home/{{android_sdk_user}}/android/{{android_sdk_version}}.tgz
+
+- name: extract android sdk
+  sudo: yes
+  sudo_user: "{{ android_sdk_user }}"
+  unarchive: src=/home/{{android_sdk_user}}/android/{{android_sdk_version}}.tgz dest=/home/{{android_sdk_user}}/android copy=no
+
+- name: update platform-tools
+  sudo: yes
+  sudo_user: "{{ android_sdk_user }}"
+  shell: echo y | /home/{{android_sdk_user}}/android/android-sdk-linux/tools/android update sdk -u --filter {{ platform_tools }}
+  register: pt
+  changed_when: "'Do you accept the license' in pt.stdout"
+
+- name: update build-tools
+  sudo: yes
+  sudo_user: "{{ android_sdk_user }}"
+  shell: echo y | /home/{{android_sdk_user}}/android/android-sdk-linux/tools/android update sdk -u --filter {{ build_tools }}
+  register: bt
+  changed_when: "'Do you accept the license' in bt.stdout"
+
+- name: update android api
+  sudo: yes
+  sudo_user: "{{ android_sdk_user }}"
+  shell: echo y | /home/{{android_sdk_user}}/android/android-sdk-linux/tools/android update sdk -u --filter {{ android_api_version }}
+  register: aa
+  changed_when: "'Do you accept the license' in aa.stdout"
+
+- name: update android support
+  sudo: yes
+  sudo_user: "{{ android_sdk_user }}"
+  shell: echo y | /home/{{android_sdk_user}}/android/android-sdk-linux/tools/android update sdk -u --filter {{ android_support }}
+  register: as
+  changed_when: "'Do you accept the license' in as.stdout"
+
+- name: install cordova
+  npm: name={{ item }} global=yes state=latest
+  with_items:
+      - cordova
+

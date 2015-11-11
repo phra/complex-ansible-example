@@ -75,13 +75,14 @@
 - hosts: all
   remote_user: root
   roles:
-      - jenkins
+      - nodejs
+      - deploy-nodejs
 
 - hosts: all
   remote_user: root
   roles:
-      - nodejs
-      - deploy-nodejs
+      - jenkins
+      - jenkins-cordova
 
 - hosts: all
   remote_user: root

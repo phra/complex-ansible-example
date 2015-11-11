@@ -66,16 +66,17 @@
   roles:
       - gogs
 
-- hosts: jenkins
-  remote_user: root
-  roles:
-      - jenkins
-
 - hosts: nodejs
   remote_user: root
   roles:
       - nodejs
       - deploy-nodejs
+
+- hosts: jenkins
+  remote_user: root
+  roles:
+      - jenkins
+      - jenkins-cordova
 
 - hosts: progettoTW
   remote_user: root

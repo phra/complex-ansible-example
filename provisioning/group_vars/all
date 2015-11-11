@@ -18,3 +18,9 @@ swapfile_size: 2048MB
 swapfile_swappiness: 20
 swapfile_vfs_cache_pressure: False
 swapfile_use_dd: False
+android_sdk_user: jenkins
+android_sdk_version: android-sdk_r24.4.1-linux
+platform_tools: platform-tools
+build_tools: build-tools-23.0.2
+android_api_version: android-22
+android_support: extra-android-support
