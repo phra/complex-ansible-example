@@ -5,10 +5,10 @@
   with_items:
       - piwik
 
-- name: create gogs mysql db
+- name: create piwik mysql db
   mysql_db: name={{ piwik_db }}
 
-- name: create gogs mysql user
+- name: create piwik mysql user
   mysql_user: name={{ piwik_db_user }} password={{ piwik_db_pass }} priv={{ piwik_db }}.*:ALL
 
 - name: grant FILE permission
