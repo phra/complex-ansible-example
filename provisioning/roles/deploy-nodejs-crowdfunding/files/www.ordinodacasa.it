@@ -22,6 +22,7 @@ server {
 
     # listen on the www host
     server_name _ www.ordinodacasa.it ordinodacasa.it;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
     # and redirect to the non-www host (declared below)
     return 301 https://www.ordinodacasa.it$request_uri;
 }
@@ -30,6 +31,7 @@ server {
     listen [::]:80;
     listen 80;
     server_name ordinodacasa.no-ip.org;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
     return 301 https://ordinodacasa.no-ip.org$request_uri;
 }
 
@@ -43,6 +45,19 @@ server {
     # The host name to respond to
     server_name _ ordinodacasa.it www.ordinodacasa.it ordinodacasa.no-ip.org;
 
+    # Security headers
+    add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
+    add_header Access-Control-Allow-Origin "null";
+    add_header Content-Security-Policy "default-src 'self' data: gap: https://ssl.gstatic.com;
+        connect-src 'self' https://*.ordinodacasa.it wss://*.ordinodacasa.it;
+        script-src 'self' https://*.ordinodacasa.it https://code.jquery.com https://*.google.com https://*.gstatic.com https://cdnjs.cloudflare.com https://*.googleapis.com https://cdn.socket.io https://cdn.polyfill.io;
+        style-src 'self' https://cdnjs.cloudflare.com https://*.googleapis.com 'unsafe-inline';
+        font-src 'self' https://*.ordinodacasa.it https://*.googleapis.com https://*.gstatic.com https://cdnjs.cloudflare.com data:;
+        img-src 'self' https://*.ordinodacasa.it https://*.googleapis.com https://*.gstatic.com https://cdnjs.cloudflare.com data:;
+        media-src 'self' https://*.ordinodacasa.it;
+        child-src 'self' https://*.ordinodacasa.it https://*.youtube.com https://*.google.com https://*.googleapis.com https://*.gstatic.com;
+        upgrade-insecure-requests";
+
     # Path for static files
     root /home/node/deploy/staging/crowdfunding/current/client/dist/;
     index index.html;
@@ -53,7 +68,7 @@ server {
 
     location @prerender {
         proxy_set_header X-Prerender-Token AcjkGBzJPPpoQC4sH9L7;
-        
+
         set $prerender 0;
         if ($http_user_agent ~* "baiduspider|twitterbot|facebookexternalhit|rogerbot|linkedinbot|embedly|quora link preview|showyoubot|outbrain|pinterest|slackbot|vkShare|W3C_Validator") {
             set $prerender 1;
@@ -67,12 +82,12 @@ server {
         if ($uri ~ "\.(js|css|xml|less|png|jpg|jpeg|gif|pdf|doc|txt|ico|rss|zip|mp3|rar|exe|wmv|doc|avi|ppt|mpg|mpeg|tif|wav|mov|psd|ai|xls|mp4|m4a|swf|dat|dmg|iso|flv|m4v|torrent|ttf|woff)") {
             set $prerender 0;
         }
-        
+
         #resolve using Google's DNS server to force DNS resolution and prevent caching of IPs
         resolver 8.8.8.8;
- 
+
         if ($prerender = 1) {
-            
+
             #setting prerender as a variable forces DNS resolution since nginx caches IPs and doesnt play well with load balancing
             set $prerender "service.prerender.io";
             rewrite .* /$scheme://$host$request_uri? break;
