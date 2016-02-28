@@ -56,7 +56,7 @@
   apt_key: url='https://deb.nodesource.com/gpgkey/nodesource.gpg.key'
 
 - name: add nodejs repo
-  apt_repository: repo='deb http://deb.nodesource.com/node_4.x {{ ansible_distribution_release }} main'
+  apt_repository: repo='deb http://deb.nodesource.com/node_5.x {{ ansible_distribution_release }} main'
 
 - name: add jenkins apt key
   apt_key: url='http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key'
