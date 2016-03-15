@@ -14,7 +14,7 @@ piwik_db_pass: piwik
 gogs_secret: NNOtfhfNe1iJyyef1!
 jenkins_port: 8888
 swapfile_location: /mnt/swapfile
-swapfile_size: 2048MB
+swapfile_size: 4096MB
 swapfile_swappiness: 20
 swapfile_vfs_cache_pressure: False
 swapfile_use_dd: False

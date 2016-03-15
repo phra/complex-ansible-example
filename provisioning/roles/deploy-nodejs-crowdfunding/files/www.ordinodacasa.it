@@ -50,7 +50,7 @@ server {
     add_header Access-Control-Allow-Origin "null";
     add_header Content-Security-Policy "default-src 'self' data: gap: https://ssl.gstatic.com;
         connect-src 'self' https://*.ordinodacasa.it wss://*.ordinodacasa.it;
-        script-src 'self' https://*.ordinodacasa.it https://code.jquery.com https://*.google.com https://*.gstatic.com https://cdnjs.cloudflare.com https://*.googleapis.com https://cdn.socket.io https://cdn.polyfill.io;
+        script-src 'self' https://*.ordinodacasa.it https://code.jquery.com https://*.google.com https://*.gstatic.com https://cdnjs.cloudflare.com https://*.googleapis.com https://cdn.socket.io https://cdn.polyfill.io https://twitter.github.io;
         style-src 'self' https://cdnjs.cloudflare.com https://*.googleapis.com 'unsafe-inline';
         font-src 'self' https://*.ordinodacasa.it https://*.googleapis.com https://*.gstatic.com https://cdnjs.cloudflare.com data:;
         img-src 'self' https://*.ordinodacasa.it https://*.googleapis.com https://*.gstatic.com https://cdnjs.cloudflare.com data:;

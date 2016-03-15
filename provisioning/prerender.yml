@@ -1,0 +1,6 @@
+---
+
+- hosts: jenkins
+  remote_user: root
+  roles:
+      - jenkins-cordova #require node

@@ -10,6 +10,9 @@
 - name: create gogs mysql user
   mysql_user: name={{ gogs_db_user }} password={{ gogs_db_pass }} priv={{ gogs_db }}.*:ALL
 
+- name: create android dir
+  file: path=/opt/gogs/custom/conf state=directory
+
 - name: copy gogs conf
   template: src=app.ini.j2 dest=/opt/gogs/custom/conf/app.ini 
   notify: restart gogs

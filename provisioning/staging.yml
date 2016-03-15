@@ -78,10 +78,10 @@
       - jenkins
       - jenkins-cordova
 
-- hosts: progettoTW
-  remote_user: root
-  roles:
-      - progettoTW
+#- hosts: progettoTW
+#  remote_user: root
+#  roles:
+#      - progettoTW
 
 - hosts: all
   remote_user: root
