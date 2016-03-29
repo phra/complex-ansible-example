@@ -7,22 +7,22 @@
       - roundcube-mysql
 
 - name: copy roundcube apache2 vhost
-  copy: src=roundcube.ordinodacasa.it.apache2 dest=/etc/apache2/sites-available/roundcube.ordinodacasa.it.conf
+  template: src=roundcube.{{DOMAIN}}.apache2.j2 dest=/etc/apache2/sites-available/roundcube.{{DOMAIN}}.conf
   notify:
       - reload apache2
 
 - name: symlink roundcube apache2
-  file: src=/etc/apache2/sites-available/roundcube.ordinodacasa.it.conf dest=/etc/apache2/sites-enabled/roundcube.ordinodacasa.it.conf state=link
+  file: src=/etc/apache2/sites-available/roundcube.{{DOMAIN}}.conf dest=/etc/apache2/sites-enabled/roundcube.{{DOMAIN}}.conf state=link
   notify:
       - reload apache2
 
 - name: copy roundcube nginx vhost
-  copy: src=roundcube.ordinodacasa.it.nginx dest=/etc/nginx/sites-available/roundcube.ordinodacasa.it
+  template: src=roundcube.{{DOMAIN}}.nginx.j2 dest=/etc/nginx/sites-available/roundcube.{{DOMAIN}}
   notify:
       - reload nginx
 
 - name: symlink roundcube nginx
-  file: src=/etc/nginx/sites-available/roundcube.ordinodacasa.it dest=/etc/nginx/sites-enabled/roundcube.ordinodacasa.it state=link
+  file: src=/etc/nginx/sites-available/roundcube.123spesa.it dest=/etc/nginx/sites-enabled/roundcube.123spesa.it state=link
   notify:
       - reload nginx
 

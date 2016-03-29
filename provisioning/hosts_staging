@@ -1,47 +1,47 @@
 [webservers]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [mysql]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [piwik]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [apache2]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [nginx]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [postgresql]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [redis]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [monitoring]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [postfix]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [dovecot]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [roundcube]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [zabbix]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [nodejs]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [gogs]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [jenkins]
-ordinodacasa.no-ip.org
+dev.123spesa.it
 
 [progettoTW]
-ordinodacasa.no-ip.org
+dev.123spesa.it

@@ -10,15 +10,15 @@
   command: pm2 deploy ecosystem.json5 staging setup
   sudo: yes
   sudo_user: node
+  notify: deploy prerender
   args:
       chdir: /home/node/git/slimerjs-prerender
-      creates: /home/node/deploy/staging/slimerjs-prerender/source
+      creates: /home/node/deploy/staging/prerender/source
 
 - name: copy www vhost
-  copy: src=prerender.ordinodacasa.it dest=/etc/nginx/sites-available/prerender.ordinodacasa.it
+  template: src=prerender.{{DOMAIN}}.j2 dest=/etc/nginx/sites-available/prerender.{{DOMAIN}}
   notify: reload nginx
 
 - name: symlink www
-  file: src=/etc/nginx/sites-available/prerender.ordinodacasa.it dest=/etc/nginx/sites-enabled/prerender.ordinodacasa.it state=link
+  file: src=/etc/nginx/sites-available/prerender.{{DOMAIN}} dest=/etc/nginx/sites-enabled/prerender.{{DOMAIN}} state=link
   notify: reload nginx
-

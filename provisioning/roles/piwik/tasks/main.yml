@@ -15,21 +15,20 @@
   shell: echo "GRANT FILE ON *.* TO 'piwik'@'localhost';" | sudo mysql
 
 - name: set piwik auto-archive crontab
-  cron: name=piwik-auto-archive minute=5 user=www-data job="/usr/bin/php5 /usr/share/piwik/console core:archive --url=http://piwik.ordinodacasa.it"
+  cron: name=piwik-auto-archive minute=5 user=www-data job="/usr/bin/php5 /usr/share/piwik/console core:archive --url=http://piwik.{{DOMAIN}}"
 
 - name: copy piwik apache2 vhost
-  copy: src=piwik.ordinodacasa.it.apache2 dest=/etc/apache2/sites-available/piwik.ordinodacasa.it.conf
+  template: src=piwik.{{DOMAIN}}.apache2.j2 dest=/etc/apache2/sites-available/piwik.{{DOMAIN}}.conf
 
 - name: symlink piwik apache2
-  file: src=/etc/apache2/sites-available/piwik.ordinodacasa.it.conf dest=/etc/apache2/sites-enabled/piwik.ordinodacasa.it.conf state=link
+  file: src=/etc/apache2/sites-available/piwik.{{DOMAIN}}.conf dest=/etc/apache2/sites-enabled/piwik.{{DOMAIN}}.conf state=link
   notify:
       - reload apache2
 
 - name: copy piwik nginx vhost
-  copy: src=piwik.ordinodacasa.it.nginx dest=/etc/nginx/sites-available/piwik.ordinodacasa.it
+  template: src=piwik.{{DOMAIN}}.nginx.j2 dest=/etc/nginx/sites-available/piwik.{{DOMAIN}}
 
 - name: symlink piwik nginx
-  file: src=/etc/nginx/sites-available/piwik.ordinodacasa.it dest=/etc/nginx/sites-enabled/piwik.ordinodacasa.it state=link
+  file: src=/etc/nginx/sites-available/piwik.{{DOMAIN}} dest=/etc/nginx/sites-enabled/piwik.{{DOMAIN}} state=link
   notify:
       - reload nginx
-

@@ -15,9 +15,8 @@
 - name: redirect root mails
   copy: src=forward dest=/root/.forward
 
-- name: create gabriele user
+- name: create other users
   user: name={{ item.user }} shell=/bin/bash groups=dev,sudo append=yes password={{ item.password }}
   with_items:
       - { user: 'gabriele', password: '$6$X5vXjwmi$D/SdaRVxGAKnldcDzzCBnPYl384nRZFHqpoZ9XMeWqKNwfYE0oID37qDYRBBR4svuemA0ukeqZ1/rNsAnSAtA.' }
       - { user: 'xit0c', password: '$6$5YMtIOQX$.Di1WZ4jCuPMGOLDeeCRuSonsZK4gw7ruOWC3mgBg6TXuI86sNHCzrikr/ZwxihicnYu2YfZoMoRjQfaPwR.R.' }
-

@@ -2,8 +2,9 @@
 # https://github.com/h5bp/html5-boilerplate/blob/5370479476dceae7cc3ea105946536d6bc0ee468/.htaccess#L362
 # Choose between www and non-www, listen on the *wrong* one and redirect to
 # the right one -- http://wiki.nginx.org/Pitfalls#Server_Name
-upstream prerender {
-    server localhost:4000;
+
+upstream gogs {
+    server localhost:{{ gogs_port}};
 }
 
 server {
@@ -12,25 +13,21 @@ server {
     listen 80;
 
     # listen on the www host
-    server_name prerender.ordinodacasa.it;
+    server_name gogs.{{DOMAIN}};
     # and redirect to the non-www host (declared below)
-    return 301 https://prerender.ordinodacasa.it$request_uri;
+    return 301 https://gogs.{{DOMAIN}}$request_uri;
 }
 
 server {
-    ssl_certificate /etc/ssl/ordinodacasa/certs/root-chain.wildcard.ordinodacasa.it.cert.pem;
-    ssl_certificate_key /etc/ssl/ordinodacasa/private/wildcard.ordinodacasa.it.key.pem;
+    ssl_certificate /etc/ssl/{{DOMAIN}}/certs/root-chain.wildcard.{{DOMAIN}}.cert.pem;
+    ssl_certificate_key /etc/ssl/{{DOMAIN}}/private/wildcard.{{DOMAIN}}.key.pem;
 
     listen [::]:443 ssl spdy;
     listen 443 ssl spdy;
 
     # The host name to respond to
-    server_name prerender.ordinodacasa.it;
+    server_name gogs.{{DOMAIN}};
 
-    # Path for static files
-    #root /home/node/deploy/staging/crowdfunding/current/client/dist/;
-    #index index.html;
-    #try_files $uri @prerender;
     limit_req zone=one burst=50;
     #Specify a charset
     charset utf-8;
@@ -43,9 +40,9 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
-        proxy_pass http://prerender;
+        proxy_pass http://gogs;
         proxy_http_version 1.1;
-        proxy_redirect off;
+        proxy_redirect default;
         proxy_intercept_errors on;
     }
 

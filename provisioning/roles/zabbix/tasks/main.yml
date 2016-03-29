@@ -7,22 +7,22 @@
       - zabbix-frontend-php
 
 - name: copy zabbix apache2 vhost
-  copy: src=zabbix.ordinodacasa.it.apache2 dest=/etc/apache2/sites-available/zabbix.ordinodacasa.it.conf
+  template: src=zabbix.{{DOMAIN}}.apache2.j2 dest=/etc/apache2/sites-available/zabbix.{{DOMAIN}}.conf
   notify:
       - reload apache2
 
 - name: symlink zabbix apache2
-  file: src=/etc/apache2/sites-available/zabbix.ordinodacasa.it.conf dest=/etc/apache2/sites-enabled/zabbix.ordinodacasa.it.conf state=link
+  file: src=/etc/apache2/sites-available/zabbix.{{DOMAIN}}.conf dest=/etc/apache2/sites-enabled/zabbix.{{DOMAIN}}.conf state=link
   notify:
       - reload apache2
 
 - name: copy zabbix nginx vhost
-  copy: src=zabbix.ordinodacasa.it.nginx dest=/etc/nginx/sites-available/zabbix.ordinodacasa.it
+  template: src=zabbix.{{DOMAIN}}.nginx.j2 dest=/etc/nginx/sites-available/zabbix.{{DOMAIN}}
   notify:
       - reload nginx
 
 - name: symlink zabbix nginx
-  file: src=/etc/nginx/sites-available/zabbix.ordinodacasa.it dest=/etc/nginx/sites-enabled/zabbix.ordinodacasa.it state=link
+  file: src=/etc/nginx/sites-available/zabbix.{{DOMAIN}} dest=/etc/nginx/sites-enabled/zabbix.{{DOMAIN}} state=link
   notify:
       - reload nginx
 

@@ -16,7 +16,7 @@
   sudo_user: postgres
   with_items:
       - phra
-      - ale
+      - xit0c
       - gabriele
 
 - name: create development db
@@ -25,38 +25,38 @@
   sudo_user: postgres
   with_items:
       - phra
-      - ale
+      - xit0c
       - gabriele
 
 - name: add dev users to node group
   user: name={{ item }} groups=node append=yes
   with_items:
       - phra
-      - ale
+      - xit0c
       - gabriele
 
 - name: create /storage dir
   file: path=/storage state=directory mode=2770 owner=node group=node
 
 - name: clone repo
-  git: repo=git@bitbucket.org:dovps/crowdfunding.git version=staging dest=/home/node/git/crowdfunding
+  git: repo=git@bitbucket.org:dovps/crowdfunding.git version={{BRANCH}} dest=/home/node/git/crowdfunding  accept_hostkey=yes
   sudo: yes
   sudo_user: node
   notify: deploy crowdfunding
 
 - name: setup pm2
-  command: pm2 deploy ecosystem.json5 staging setup
+  command: pm2 deploy ecosystem.json5 {{BRANCH}} setup
   sudo: yes
   sudo_user: node
+  notify: deploy crowdfunding
   args:
       chdir: /home/node/git/crowdfunding
       creates: /home/node/deploy/staging/crowdfunding/source
 
 - name: copy www vhost
-  copy: src=www.ordinodacasa.it dest=/etc/nginx/sites-available/www.ordinodacasa.it
+  template: src=www.{{DOMAIN}}.j2 dest=/etc/nginx/sites-available/www.{{DOMAIN}}
   notify: reload nginx
 
 - name: symlink www
-  file: src=/etc/nginx/sites-available/www.ordinodacasa.it dest=/etc/nginx/sites-enabled/www.ordinodacasa.it state=link
+  file: src=/etc/nginx/sites-available/www.{{DOMAIN}} dest=/etc/nginx/sites-enabled/www.{{DOMAIN}} state=link
   notify: reload nginx
-

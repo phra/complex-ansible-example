@@ -7,13 +7,25 @@
       - dovecot-imapd
       - dovecot-pop3d
 
-- name: copy dovecot configuration on host
-  synchronize:
-      src: dovecot
-      dest: /etc
-      owner: no
-      group: no
-      rsync_opts:
-          - "--exclude=.git"
+- name: add dovecot user to mail group
+  user: name={{ item }} groups=mail append=yes
+  with_items:
+      - dovecot
+
+- name: create Maildir for future users
+  shell: maildirmake.dovecot /etc/skel/Maildir && maildirmake.dovecot /etc/skel/Maildir/.Drafts && maildirmake.dovecot /etc/skel/Maildir/.Sent && maildirmake.dovecot /etc/skel/Maildir/.Trash && maildirmake.dovecot /etc/skel/Maildir/.Templates
+
+- name: copy maildir configuration
+  template: src=10-mail.conf.j2 dest=/etc/dovecot/conf.d/10-mail.conf
+  notify:
+      - restart dovecot
+
+- name: copy ssl configuration
+  template: src=10-ssl.conf.j2 dest=/etc/dovecot/conf.d/10-ssl.conf
+  notify:
+      - restart dovecot
+
+- name: copy sasl configuration
+  template: src=10-master.conf.j2 dest=/etc/dovecot/conf.d/10-master.conf
   notify:
       - restart dovecot

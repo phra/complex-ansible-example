@@ -2,16 +2,19 @@
 
 - name: install postfix
   apt: name={{ item }} state=present
-  with_items: 
+  with_items:
       - postfix
 
-- name: copy postfix config
-  synchronize:
-      src: postfix
-      dest: /etc
-      owner: no
-      group: no
-      rsync_opts:
-          - "--exclude=.git"
+- name: copy master.cf
+  template: src=master.cf.j2 dest=/etc/postfix/master.cf
+
+- name: copy main.cf
+  template: src=main.cf.j2 dest=/etc/postfix/main.cf
+
+- name: copy virtual
+  template: src=virtual.j2 dest=/etc/postfix/virtual
+
+- name: create virtual.db
+  shell: postmap /etc/postfix/virtual
   notify:
       - restart postfix

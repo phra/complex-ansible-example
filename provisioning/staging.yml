@@ -1,14 +1,28 @@
 ---
-# This playbook deploys the whole application stack in this site.  
+# This playbook deploys the whole application stack in this site.
 
 # Apply common configuration to all hosts
 - hosts: all
   remote_user: root
   roles:
       - common
-      - users
-        #- ansible-swapfile
+      - ansible-swapfile
       - ssl
+
+- hosts: postfix
+  remote_user: root
+  roles:
+      - postfix
+
+- hosts: dovecot
+  remote_user: root
+  roles:
+      - dovecot
+
+- hosts: all
+  remote_user: root
+  roles:
+      - users
 
 # Configure and deploy database servers.
 - hosts: mysql
@@ -36,15 +50,6 @@
   roles:
       - base-nginx
 
-- hosts: postfix
-  remote_user: root
-  roles:
-      - postfix
-
-- hosts: dovecot
-  remote_user: root
-  roles:
-      - dovecot
 
 - hosts: roundcube
   remote_user: root
@@ -88,4 +93,3 @@
   roles:
       - firehol-staging
       - fail2ban
-

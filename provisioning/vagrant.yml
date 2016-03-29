@@ -1,5 +1,5 @@
 ---
-# This playbook deploys the whole application stack in this site.  
+# This playbook deploys the whole application stack in this site.
 
 - hosts: all
   remote_user: vagrant
@@ -12,9 +12,23 @@
   remote_user: root
   roles:
       - common
-      - users
       - ansible-swapfile
       - ssl
+
+- hosts: all
+  remote_user: root
+  roles:
+      - postfix
+
+- hosts: all
+  remote_user: root
+  roles:
+      - dovecot
+
+- hosts: all
+  remote_user: root
+  roles:
+      - users
 
 # Configure and deploy database servers.
 - hosts: all
@@ -41,16 +55,6 @@
   remote_user: root
   roles:
       - base-nginx
-
-- hosts: all
-  remote_user: root
-  roles:
-      - postfix
-
-- hosts: all
-  remote_user: root
-  roles:
-      - dovecot
 
 - hosts: all
   remote_user: root
@@ -89,4 +93,3 @@
   roles:
       - firehol-vagrant
       - fail2ban
-

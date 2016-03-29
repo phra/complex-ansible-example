@@ -3,8 +3,8 @@
 # Choose between www and non-www, listen on the *wrong* one and redirect to
 # the right one -- http://wiki.nginx.org/Pitfalls#Server_Name
 
-upstream gogs {
-    server localhost:{{ gogs_port}};
+upstream zabbix {
+    server localhost:81;
 }
 
 server {
@@ -13,27 +13,20 @@ server {
     listen 80;
 
     # listen on the www host
-    server_name gogs.ordinodacasa.it;
+    server_name zabbix.{{DOMAIN}};
     # and redirect to the non-www host (declared below)
-    return 301 https://gogs.ordinodacasa.it$request_uri;
+    return 301 https://zabbix.{{DOMAIN}}$request_uri;
 }
 
 server {
-    listen [::]:80;
-    listen 80;
-    server_name gogs.ordinodacasa.no-ip.org;
-    return 301 https://gogs.ordinodacasa.no-ip.org$request_uri;
-}
-
-server {
-    ssl_certificate /etc/ssl/ordinodacasa/certs/root-chain.wildcard.ordinodacasa.it.cert.pem;
-    ssl_certificate_key /etc/ssl/ordinodacasa/private/wildcard.ordinodacasa.it.key.pem;
+    ssl_certificate /etc/ssl/{{DOMAIN}}/certs/root-chain.wildcard.{{DOMAIN}}.cert.pem;
+    ssl_certificate_key /etc/ssl/{{DOMAIN}}/private/wildcard.{{DOMAIN}}.key.pem;
 
     listen [::]:443 ssl spdy;
     listen 443 ssl spdy;
 
     # The host name to respond to
-    server_name gogs.ordinodacasa.it gogs.ordinodacasa.no-ip.org;
+    server_name zabbix.{{DOMAIN}};
 
     limit_req zone=one burst=50;
     #Specify a charset
@@ -47,7 +40,7 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
-        proxy_pass http://gogs;
+        proxy_pass http://zabbix;
         proxy_http_version 1.1;
         proxy_redirect default;
         proxy_intercept_errors on;

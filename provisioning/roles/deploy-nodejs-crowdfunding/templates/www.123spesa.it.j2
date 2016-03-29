@@ -21,41 +21,33 @@ server {
     listen 80 deferred;
 
     # listen on the www host
-    server_name _ www.ordinodacasa.it ordinodacasa.it;
+    server_name _ {{HOST}}.{{DOMAIN}} {{DOMAIN}};
     add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
     # and redirect to the non-www host (declared below)
-    return 301 https://www.ordinodacasa.it$request_uri;
+    return 301 https://{{HOST}}.{{DOMAIN}}$request_uri;
 }
 
 server {
-    listen [::]:80;
-    listen 80;
-    server_name ordinodacasa.no-ip.org;
-    add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
-    return 301 https://ordinodacasa.no-ip.org$request_uri;
-}
-
-server {
-    ssl_certificate /etc/ssl/ordinodacasa/certs/root-chain.wildcard.ordinodacasa.it.cert.pem;
-    ssl_certificate_key /etc/ssl/ordinodacasa/private/wildcard.ordinodacasa.it.key.pem;
+    ssl_certificate /etc/ssl/{{DOMAIN}}/certs/root-chain.wildcard.{{DOMAIN}}.cert.pem;
+    ssl_certificate_key /etc/ssl/{{DOMAIN}}/private/wildcard.{{DOMAIN}}.key.pem;
 
     listen [::]:443 ssl deferred spdy;
     listen 443 ssl deferred spdy;
 
     # The host name to respond to
-    server_name _ ordinodacasa.it www.ordinodacasa.it ordinodacasa.no-ip.org;
+    server_name _ {{DOMAIN}} {{HOST}}.{{DOMAIN}};
 
     # Security headers
     add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
     add_header Access-Control-Allow-Origin "null";
     add_header Content-Security-Policy "default-src 'self' data: gap: https://ssl.gstatic.com;
-        connect-src 'self' https://*.ordinodacasa.it wss://*.ordinodacasa.it;
-        script-src 'self' https://*.ordinodacasa.it https://code.jquery.com https://*.google.com https://*.gstatic.com https://cdnjs.cloudflare.com https://*.googleapis.com https://cdn.socket.io https://cdn.polyfill.io https://twitter.github.io;
+        connect-src 'self' https://*.{{DOMAIN}} wss://*.{{DOMAIN}};
+        script-src 'self' https://*.{{DOMAIN}} https://code.jquery.com https://*.google.com https://*.gstatic.com https://cdnjs.cloudflare.com https://*.googleapis.com https://cdn.socket.io https://cdn.polyfill.io https://twitter.github.io;
         style-src 'self' https://cdnjs.cloudflare.com https://*.googleapis.com 'unsafe-inline';
-        font-src 'self' https://*.ordinodacasa.it https://*.googleapis.com https://*.gstatic.com https://cdnjs.cloudflare.com data:;
-        img-src 'self' https://*.ordinodacasa.it https://*.googleapis.com https://*.gstatic.com https://cdnjs.cloudflare.com data:;
-        media-src 'self' https://*.ordinodacasa.it;
-        child-src 'self' https://*.ordinodacasa.it https://*.youtube.com https://*.google.com https://*.googleapis.com https://*.gstatic.com;
+        font-src 'self' https://*.{{DOMAIN}} https://*.googleapis.com https://*.gstatic.com https://cdnjs.cloudflare.com data:;
+        img-src 'self' https://*.{{DOMAIN}} https://*.googleapis.com https://*.gstatic.com https://cdnjs.cloudflare.com data:;
+        media-src 'self' https://*.{{DOMAIN}};
+        child-src 'self' https://*.{{DOMAIN}} https://*.youtube.com https://*.google.com https://*.googleapis.com https://*.gstatic.com;
         upgrade-insecure-requests";
 
     # Path for static files
@@ -89,7 +81,7 @@ server {
         if ($prerender = 1) {
 
             #setting prerender as a variable forces DNS resolution since nginx caches IPs and doesnt play well with load balancing
-            set $prerender "service.prerender.io";
+            set $prerender "prerender.{{DOMAIN}}";
             rewrite .* /$scheme://$host$request_uri? break;
             proxy_pass http://$prerender;
         }

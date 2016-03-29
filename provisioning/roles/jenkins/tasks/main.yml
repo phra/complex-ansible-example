@@ -1,5 +1,6 @@
 ---
-
+# https://wiki.jenkins-ci.org/display/JENKINS/BitBucket+Plugin
+# https://wiki.jenkins-ci.org/display/JENKINS/Github+Plugin
 - name: install jenkins
   apt: name={{ item }}
   with_items:
@@ -7,6 +8,56 @@
 
 - name: add jenkins to shadow group
   user: name=jenkins groups=shadow,sudo append=yes
+
+- name: copy private ssh deploy key
+  copy: src=bitbucket dest=/var/lib/jenkins/.ssh/bitbucket mode=0600
+  sudo: yes
+  sudo_user: jenkins
+
+- name: copy public ssh deploy key
+  copy: src=bitbucket.pub dest=/var/lib/jenkins/bitbucket.pub
+  sudo: yes
+  sudo_user: jenkins
+
+- name: copy ssh config
+  copy: src=config dest=/var/lib/jenkins/.ssh/config
+  sudo: yes
+  sudo_user: jenkins
+
+- name: retrive localhost key
+  command: ssh-keyscan -H localhost
+  register: keyscan1
+
+- name: retrive bitbucket key
+  command: ssh-keyscan -H bitbucket.org
+  register: keyscan2
+
+- name: generate ssh keys for jenkins
+  command: ssh-keygen -b 4096
+  sudo: yes
+  sudo_user: jenkins
+  args:
+      creates: /var/lib/jenkins/.ssh/id_rsa.pub
+
+- name: retrive id_rsa.pub
+  command: cat /var/lib/jenkins/.ssh/id_rsa.pub
+  register: key
+
+- name: add ability to ssh to localhost
+  authorized_key: user=jenkins key="{{ key.stdout }}"
+
+- name: add ability to ssh to node
+  authorized_key: user=node key="{{ key.stdout }}"
+
+- name: add localhost to known hosts
+  known_hosts: name=localhost key="{{ keyscan1.stdout }}"
+  sudo: yes
+  sudo_user: jenkins
+
+- name: add bitbucket to known hosts
+  known_hosts: name=bitbucket.org key="{{ keyscan2.stdout }}"
+  sudo: yes
+  sudo_user: jenkins
 
 - name: permit jenkins to sudo on node
   copy: src=jenkins dest=/etc/sudoers.d/jenkins
@@ -24,12 +75,11 @@
       - restart jenkins
 
 - name: copy jenkins nginx vhost
-  template: src=jenkins.ordinodacasa.it.nginx.j2 dest=/etc/nginx/sites-available/jenkins.ordinodacasa.it
+  template: src=jenkins.123spesa.it.nginx.j2 dest=/etc/nginx/sites-available/jenkins.123spesa.it
   notify:
       - reload nginx
 
 - name: symlink jenkins nginx
-  file: src=/etc/nginx/sites-available/jenkins.ordinodacasa.it dest=/etc/nginx/sites-enabled/jenkins.ordinodacasa.it state=link
+  file: src=/etc/nginx/sites-available/jenkins.123spesa.it dest=/etc/nginx/sites-enabled/jenkins.123spesa.it state=link
   notify:
       - reload nginx
-

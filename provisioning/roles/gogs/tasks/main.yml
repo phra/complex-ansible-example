@@ -14,15 +14,15 @@
   file: path=/opt/gogs/custom/conf state=directory
 
 - name: copy gogs conf
-  template: src=app.ini.j2 dest=/opt/gogs/custom/conf/app.ini 
+  template: src=app.ini.j2 dest=/opt/gogs/conf/app.ini
   notify: restart gogs
 
 - name: copy gogs nginx vhost
-  template: src=gogs.ordinodacasa.it.nginx.j2 dest=/etc/nginx/sites-available/gogs.ordinodacasa.it
+  template: src=gogs.{{DOMAIN}}.nginx.j2 dest=/etc/nginx/sites-available/gogs.{{DOMAIN}}
   notify:
       - reload nginx
 
 - name: symlink gogs nginx
-  file: src=/etc/nginx/sites-available/gogs.ordinodacasa.it dest=/etc/nginx/sites-enabled/gogs.ordinodacasa.it state=link
+  file: src=/etc/nginx/sites-available/gogs.{{DOMAIN}} dest=/etc/nginx/sites-enabled/gogs.{{DOMAIN}} state=link
   notify:
       - reload nginx
